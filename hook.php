@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+use Glpi\Config;
 /****************************************************************************************
  **
  **      GLPI Plugin for TacticalRMM - Developed by JP Ros
@@ -6,13 +9,21 @@
  ****************************************************************************************/
 
 
-function plugin_tacticalrmm_install()
+/**
+ * Install plugin TacticalRMM
+ * @return bool
+ */
+function plugin_tacticalrmm_install(): bool
 {
     Config::setConfigurationValues('plugin:tacticalrmm', ['url' => '', 'field' => 'serial']);
     return true;
 }
 
-function plugin_tacticalrmm_uninstall()
+/**
+ * Uninstall plugin TacticalRMM
+ * @return bool
+ */
+function plugin_tacticalrmm_uninstall(): bool
 {
     $config = new Config();
     $config->deleteConfigurationValues('plugin:tacticalrmm', ['url']);

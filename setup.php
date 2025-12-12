@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /****************************************************************************************
  **
  **      GLPI Plugin for TacticalRMM - Developed by JP Ros
@@ -8,43 +9,56 @@
 define('PLUGIN_TACTICALRMM_VERSION', '1.0.0');
 
 
-function plugin_init_tacticalrmm()
+/**
+ * Initialize TacticalRMM plugin
+ * @return void
+ */
+function plugin_init_tacticalrmm(): void
 {
     global $PLUGIN_HOOKS;
     $PLUGIN_HOOKS['csrf_compliant']['tacticalrmm'] = true;
-
     $PLUGIN_HOOKS['config_page']['tacticalrmm'] = 'front/config.form.php';
-
     $PLUGIN_HOOKS['pre_item_form']['tacticalrmm'] = ['PluginTacticalrmmController', 'button_open'];
-
 }
 
-function plugin_version_tacticalrmm()
+/**
+ * Get TacticalRMM plugin version info
+ * @return array<string, string>
+ */
+function plugin_version_tacticalrmm(): array
 {
-    return array(
-        'name' => "TacticalRMM",
+    return [
+        'name' => 'TacticalRMM',
         'version' => PLUGIN_TACTICALRMM_VERSION,
         'author' => 'JP Ros',
         'license' => 'GPLv2+',
         'minGlpiVersion' => '9.1.2'
-    );
+    ];
 }
 
-function plugin_tacticalrmm_check_prerequisites()
+/**
+ * Check TacticalRMM plugin prerequisites
+ * @return bool
+ */
+function plugin_tacticalrmm_check_prerequisites(): bool
 {
     if (version_compare(GLPI_VERSION, '9.1.2', 'lt')) {
         if (method_exists('Plugin', 'messageIncompatible')) {
             echo Plugin::messageIncompatible('core', '9.1.2');
         } else {
-            echo "This plugin requires GLPI >= 9.1.2";
+            echo 'This plugin requires GLPI >= 9.1.2';
         }
         return false;
     }
-
     return true;
 }
 
-function plugin_tacticalrmm_check_config($verbose = false)
+/**
+ * Check TacticalRMM plugin config
+ * @param bool $verbose
+ * @return bool
+ */
+function plugin_tacticalrmm_check_config(bool $verbose = false): bool
 {
     return true;
 }

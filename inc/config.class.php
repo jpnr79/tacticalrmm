@@ -1,31 +1,53 @@
 <?php
+declare(strict_types=1);
 /****************************************************************************************
  **
  **      GLPI Plugin for TacticalRMM - Developed by JP Ros
  **
  ****************************************************************************************/
 
+/**
+ * Config handler for TacticalRMM plugin
+ */
 class PluginTacticalrmmConfig
 {
-    static public function getUrl()
+    /**
+     * Get TacticalRMM URL
+     * @return string|null
+     */
+    public static function getUrl(): ?string
     {
-        return Config::getConfigurationValues('plugin:tacticalrmm')["url"];
+        return Config::getConfigurationValues('plugin:tacticalrmm')["url"] ?? null;
     }
 
-    static public function setUrl($value)
+    /**
+     * Set TacticalRMM URL
+     * @param string $value
+     * @return void
+     */
+    public static function setUrl(string $value): void
     {
         Config::setConfigurationValues('plugin:tacticalrmm', ["url" => $value]);
     }
-    static public function getField()
+
+    /**
+     * Get field used for TacticalRMM
+     * @return string|null
+     */
+    public static function getField(): ?string
     {
-        return Config::getConfigurationValues('plugin:tacticalrmm')["field"];
+        return Config::getConfigurationValues('plugin:tacticalrmm')["field"] ?? null;
     }
 
-    static public function setField($value)
+    /**
+     * Set field for TacticalRMM
+     * @param string $value
+     * @return void
+     */
+    public static function setField(string $value): void
     {
         Config::setConfigurationValues('plugin:tacticalrmm', ["field" => $value]);
     }
-
 }
 
 ?>

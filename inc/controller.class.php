@@ -1,21 +1,29 @@
 <?php
+declare(strict_types=1);
 /****************************************************************************************
  **
  **      GLPI Plugin for TacticalRMM - Developed by JP Ros
  **
  ****************************************************************************************/
 
+/**
+ * Controller for TacticalRMM plugin
+ */
 class PluginTacticalrmmController
 {
-    static public function button_open($params)
+    /**
+     * Display TacticalRMM button on item form
+     * @param array $params
+     * @return void
+     */
+    public static function button_open(array $params): void
     {
         $url = PluginTacticalrmmConfig::getUrl();
         $field = PluginTacticalrmmConfig::getField();
         $item = $params['item'];
-
-        if (empty($url) || empty($field) || $item::getType() != Computer::class)
+        if (empty($url) || empty($field) || $item::getType() !== Computer::class) {
             return;
-
+        }
         $name = $item->fields[$field];
         $encode = urlencode($name);
         $out = "<div class='container right'>
@@ -27,7 +35,6 @@ class PluginTacticalrmmController
                 </div>";
         echo $out;
     }
-
 }
 
 ?>
