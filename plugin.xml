@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+  <name>tacticalrmm</name>
+  <version>1.0.0</version>
+  <author>Your Name</author>
+  <license>GPLv2+</license>
+  <homepage>https://github.com/jpros/GLPI-TacticalRmmPlugin</homepage>
+  <minGlpiVersion>9.5.0</minGlpiVersion>
+  <maxGlpiVersion>10.0.99</maxGlpiVersion>
+  <short_description>Integration with Tactical RMM</short_description>
+  <long_description>This plugin integrates Tactical RMM with GLPI.</long_description>
+</plugin>

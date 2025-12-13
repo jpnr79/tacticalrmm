@@ -40,14 +40,14 @@ if (Config::canView()) {
     echo "<table style='width:100%;'>";
     echo "<tr class='tab_bg_2'>";
     echo "<td> " . __('URL') . "</td>";
-    echo "<td><input type='text' name='url' value='" . $url . "' style='width: 100%'></td>";
+    echo "<td><input type='text' name='url' id='url' value='" . $url . "' style='width: 100%'></td>";
     echo "</tr>";
 
     echo "<tr class='tab_bg_2'><td>&nbsp;</td></tr>";
 
     echo "<tr class='tab_bg_2'>";
     echo "<td> " . __('Relation field') . "</td><td>";
-    echo "<select name='field' style='width:100%'>";
+    echo "<select name='field' id='field' style='width:100%'>";
 
     echo getOption($field, "name", "Name");
     echo getOption($field, "serial", "Serial number");

@@ -1,0 +1,49 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined static method Html\:\:displayTitle\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: front/config.form.php
+
+		-
+			message: '#^Call to static method canUpdate\(\) on an unknown class Config\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/config.form.php
+
+		-
+			message: '#^Call to static method canView\(\) on an unknown class Config\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/config.form.php
+
+		-
+			message: '#^Call to static method setConfigurationValues\(\) on an unknown class Glpi\\Config\.$#'
+			identifier: class.notFound
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Instantiated class Glpi\\Config not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Call to static method getConfigurationValues\(\) on an unknown class Config\.$#'
+			identifier: class.notFound
+			count: 2
+			path: inc/config.class.php
+
+		-
+			message: '#^Call to static method setConfigurationValues\(\) on an unknown class Config\.$#'
+			identifier: class.notFound
+			count: 2
+			path: inc/config.class.php
+
+		-
+			message: '#^Class Computer not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: inc/controller.class.php
