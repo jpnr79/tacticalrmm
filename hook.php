@@ -19,38 +19,16 @@ declare(strict_types=1);
 function plugin_tacticalrmm_install(): bool
 {
     global $DB;
-    include_once(GLPI_ROOT . '/inc/migration.class.php');
-    $migration = new Migration('1.0.0');
     $table = "glpi_plugin_tacticalrmm_configs";
-    if (!$DB->tableExists($table)) {
-        $migration->displayMessage("Installing $table");
-        $migration->createTable($table);
-        $migration->addField($table, 'id', 'autoincrement');
-        $migration->addField($table, 'url', 'string', ['default' => '']);
-        $migration->addField($table, 'field', 'string', ['default' => 'serial']);
-        $migration->addKey($table, 'PRIMARY KEY', ['id']);
-        $migration->executeMigration();
-        // Insert default row using Migration
-        $migration->insertData($table, [
-            [
-                'id' => 1,
-                'url' => '',
-                'field' => 'serial'
-            ]
-        ]);
-    } else {
-        // Ensure row exists
-        $res = $DB->request(["FROM" => $table, "WHERE" => ["id" => 1]]);
-        if ($res->numrows() == 0) {
-            $migration->insertData($table, [
-                [
-                    'id' => 1,
-                    'url' => '',
-                    'field' => 'serial'
-                ]
-            ]);
-        }
-    }
+    $query = "CREATE TABLE IF NOT EXISTS `$table` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `url` varchar(255) NOT NULL DEFAULT '',
+        `field` varchar(255) NOT NULL DEFAULT 'serial',
+        PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+    $DB->doQuery($query);
+    $insert = "INSERT IGNORE INTO `$table` (`id`, `url`, `field`) VALUES (1, '', 'serial');";
+    $DB->doQuery($insert);
     return true;
 }
 
@@ -65,11 +43,19 @@ function plugin_tacticalrmm_uninstall(): bool
 {
     global $DB;
     $table = "glpi_plugin_tacticalrmm_configs";
-    if ($DB->tableExists($table)) {
-        include_once(GLPI_ROOT . '/inc/migration.class.php');
-        $migration = new Migration('1.0.0');
-        $migration->dropTable($table);
-        $migration->executeMigration();
-    }
+    $DB->doQuery("DROP TABLE IF EXISTS `$table`;");
     return true;
+}
+
+/**
+ * Handle plugin database schema and data migrations
+ * REQUIRED for GLPI 11+
+ *
+ * @return array
+ */
+function plugin_version_tacticalrmm_modifications() {
+    return [
+        // Example: [ 'version' => '1.0.0', 'query' => 'CREATE TABLE ...' ]
+        // Add migration steps here as needed for future versions
+    ];
 }
