@@ -9,6 +9,7 @@ declare(strict_types=1);
 /**
  * Config handler for TacticalRMM plugin
  */
+
 class PluginTacticalrmmConfig
 {
     /**
@@ -17,7 +18,8 @@ class PluginTacticalrmmConfig
      */
     public static function getUrl(): ?string
     {
-        return Config::getConfigurationValues('plugin:tacticalrmm')["url"] ?? null;
+        $values = Plugin::getConfigurationValues('tacticalrmm');
+        return $values["url"] ?? null;
     }
 
     /**
@@ -27,7 +29,7 @@ class PluginTacticalrmmConfig
      */
     public static function setUrl(string $value): void
     {
-        Config::setConfigurationValues('plugin:tacticalrmm', ["url" => $value]);
+        Plugin::setConfigurationValues('tacticalrmm', ["url" => $value]);
     }
 
     /**
@@ -36,7 +38,8 @@ class PluginTacticalrmmConfig
      */
     public static function getField(): ?string
     {
-        return Config::getConfigurationValues('plugin:tacticalrmm')["field"] ?? null;
+        $values = Plugin::getConfigurationValues('tacticalrmm');
+        return $values["field"] ?? null;
     }
 
     /**
@@ -46,7 +49,7 @@ class PluginTacticalrmmConfig
      */
     public static function setField(string $value): void
     {
-        Config::setConfigurationValues('plugin:tacticalrmm', ["field" => $value]);
+        Plugin::setConfigurationValues('tacticalrmm', ["field" => $value]);
     }
 }
 

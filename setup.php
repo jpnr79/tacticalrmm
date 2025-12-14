@@ -64,3 +64,11 @@ function plugin_tacticalrmm_check_config(bool $verbose = false): bool
 }
 
 ?>
+/**
+ * Return plugin modifications version for migrations
+ * @return string
+ */
+function plugin_version_modifications_tacticalrmm(): string
+{
+    return PLUGIN_TACTICALRMM_VERSION;
+}

@@ -12,6 +12,8 @@ declare(strict_types=1);
  * Install plugin TacticalRMM
  * @return bool
  */
+
+function plugin_tacticalrmm_install(): bool
 {
     Plugin::setConfigurationValues('tacticalrmm', ['url' => '', 'field' => 'serial']);
     return true;
@@ -21,6 +23,7 @@ declare(strict_types=1);
  * Uninstall plugin TacticalRMM
  * @return bool
  */
+
 function plugin_tacticalrmm_uninstall(): bool
 {
     Plugin::deleteConfigurationValues('tacticalrmm', ['url']);
