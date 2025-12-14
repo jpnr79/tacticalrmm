@@ -27,6 +27,11 @@ function plugin_tacticalrmm_install(): bool
         PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
     $DB->doQuery($query);
+
+    // Ensure id is unsigned if table already exists
+    $alter = "ALTER TABLE `$table` MODIFY COLUMN `id` int(11) unsigned NOT NULL AUTO_INCREMENT;";
+    $DB->doQuery($alter);
+
     $insert = "INSERT IGNORE INTO `$table` (`id`, `url`, `field`) VALUES (1, '', 'serial');";
     $DB->doQuery($insert);
     return true;
