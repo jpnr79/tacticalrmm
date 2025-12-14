@@ -15,24 +15,27 @@ declare(strict_types=1);
 
 
 
+
 function plugin_tacticalrmm_install(): bool
 {
     global $DB;
+    include_once(GLPI_ROOT . '/inc/migration.class.php');
+    $migration = new Migration('1.0.0');
     $table = "glpi_plugin_tacticalrmm_configs";
     if (!$DB->tableExists($table)) {
-        $query = "CREATE TABLE IF NOT EXISTS $table (
-            `id` int(11) NOT NULL auto_increment,
-            `url` VARCHAR(255) NOT NULL DEFAULT '',
-            `field` VARCHAR(255) NOT NULL DEFAULT 'serial',
-            PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;";
-        $DB->query($query) or die($DB->error());
-        $DB->query("INSERT INTO $table (id, url, field) VALUES (1, '', 'serial')");
+        $migration->displayMessage("Installing $table");
+        $migration->createTable($table);
+        $migration->addField($table, 'id', 'autoincrement');
+        $migration->addField($table, 'url', 'string', ['default' => '']);
+        $migration->addField($table, 'field', 'string', ['default' => 'serial']);
+        $migration->addKey($table, 'PRIMARY KEY', ['id']);
+        $migration->executeMigration();
+        $DB->insert($table, ['id' => 1, 'url' => '', 'field' => 'serial']);
     } else {
         // Ensure row exists
         $res = $DB->request(["FROM" => $table, "WHERE" => ["id" => 1]]);
         if ($res->numrows() == 0) {
-            $DB->query("INSERT INTO $table (id, url, field) VALUES (1, '', 'serial')");
+            $DB->insert($table, ['id' => 1, 'url' => '', 'field' => 'serial']);
         }
     }
     return true;
