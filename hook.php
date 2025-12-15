@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /****************************************************************************************
@@ -19,19 +20,38 @@ declare(strict_types=1);
 function plugin_tacticalrmm_install(): bool
 {
     global $DB;
+if (!defined('GLPI_ROOT')) { define('GLPI_ROOT', realpath(__DIR__ . '/../..')); }
+
     $table = "glpi_plugin_tacticalrmm_configs";
-    $query = "CREATE TABLE IF NOT EXISTS `$table` (
-        `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-        `url` varchar(255) NOT NULL DEFAULT '',
-        `field` varchar(255) NOT NULL DEFAULT 'serial',
-        PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
-    $DB->doQuery($query);
+    // Create table only if it does not exist
+    if (! $DB->tableExists($table)) {
+        $query = "CREATE TABLE `$table` (
+            `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            `url` varchar(255) NOT NULL DEFAULT '',
+            `field` varchar(255) NOT NULL DEFAULT 'serial',
+            PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+        $DB->doQuery($query);
+    }
 
-    // Ensure id is unsigned if table already exists
-    $alter = "ALTER TABLE `$table` MODIFY COLUMN `id` int(11) unsigned NOT NULL AUTO_INCREMENT;";
-    $DB->doQuery($alter);
+    // Ensure id is unsigned if table already exists (check column type first)
+    $need_alter = false;
+    $col = $DB->request(["FROM" => "information_schema.COLUMNS", "WHERE" => [
+        "TABLE_SCHEMA" => $DB->getDBName(),
+        "TABLE_NAME" => $table,
+        "COLUMN_NAME" => 'id'
+    ]]);
+    if ($col && $row = $col->next()) {
+        if (stripos($row['COLUMN_TYPE'], 'unsigned') === false) {
+            $need_alter = true;
+        }
+    }
+    if ($need_alter) {
+        $alter = "ALTER TABLE `$table` MODIFY COLUMN `id` int(11) unsigned NOT NULL AUTO_INCREMENT;";
+        $DB->doQuery($alter);
+    }
 
+    // Insert default row if missing
     $insert = "INSERT IGNORE INTO `$table` (`id`, `url`, `field`) VALUES (1, '', 'serial');";
     $DB->doQuery($insert);
     return true;
