@@ -1,33 +1,3 @@
-        public static function canView()
-        {
-            return Session::haveRight('config', READ);
-        }
-
-        public static function canUpdate()
-        {
-            return Session::haveRight('config', UPDATE);
-        }
-    public static function getTable()
-    {
-        return 'glpi_plugin_tacticalrmm_configs';
-    }
-
-    public function getFromDB($id)
-    {
-        global $DB;
-        $table = self::getTable();
-        $res = $DB->request(["FROM" => $table, "WHERE" => ["id" => $id]]);
-        if ($row = $res->next()) {
-            $this->fields = $row;
-            return true;
-        }
-        return false;
-    }
-
-    public function getEmpty()
-    {
-        $this->fields = ["id" => 1, "url" => '', "field" => 'serial'];
-    }
 <?php
 declare(strict_types=1);
 if (!defined('GLPI_ROOT')) { define('GLPI_ROOT', realpath(__DIR__ . '/../..')); }
@@ -42,7 +12,6 @@ require_once(GLPI_ROOT . '/inc/commondbtm.class.php');
 /**
  * Config handler for TacticalRMM plugin
  */
-
 
 
 class PluginTacticalrmmConfig extends CommonDBTM

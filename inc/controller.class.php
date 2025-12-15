@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
 if (!class_exists('Computer')) {
     if (file_exists(GLPI_ROOT . '/inc/computer.class.php')) {
         require_once(GLPI_ROOT . '/inc/computer.class.php');
     }
 }
-declare(strict_types=1);
 /****************************************************************************************
  **
  **      GLPI Plugin for TacticalRMM - Developed by JP Ros
